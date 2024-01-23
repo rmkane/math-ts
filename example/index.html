@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Math-TS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <!-- Include ECMAScript module file in a browser with native module support -->
+    <script type="module" src="./index.mjs"></script>
+
+    <!-- Include IIFE file in a browser without native module support -->
+    <script src="../dist/browser/bundle.iife.js"></script>
+    <script>
+      ;(function () {
+        const myLibraryIIFE = window.Math2 || {}
+        console.log('Loaded IIFE', myLibraryIIFE.product([1, 2, 3]) === 6)
+      })()
+    </script>
+  </body>
+</html>

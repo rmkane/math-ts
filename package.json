@@ -8,13 +8,17 @@
     "/dist"
   ],
   "scripts": {
-    "build": "tsc --build",
-    "clean": "tsc --build --clean",
+    "clean": "rimraf dist",
+    "build": "tsc && npm run build:cjs && npm run build:esm && npm run build:iife",
+    "build:cjs": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --format=cjs --outfile=dist/browser/bundle.cjs.js",
+    "build:esm": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --format=esm --outfile=dist/browser/bundle.esm.js",
+    "build:iife": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --format=iife --outfile=dist/browser/bundle.iife.js --global-name=Math2",
+    "prebuild": "npm run clean",
     "dev": "tsc --watch",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts",
     "format": "prettier --ignore-path .prettierignore --write \"**/*.+(js|ts|json)\"",
     "test": "mocha tests/**/*.spec.ts",
-    "coverage": "nyc -r text -e .ts -x \"tests/*.spec.ts\" npm run test"
+    "coverage": "nyc -r text -e .ts -x \"tests/**/*.spec.ts\" npm run test"
   },
   "keywords": [],
   "author": "rmkane",
@@ -26,6 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
     "chai": "^5.0.0",
+    "esbuild": "^0.19.11",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
@@ -36,6 +41,7 @@
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "prettier": "^3.2.4",
+    "rimraf": "^5.0.5",
     "sinon": "^17.0.1",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
