@@ -1,22 +1,42 @@
 <!doctype html>
 <html>
   <head>
+    <title>Math-TS</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Math-TS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/mocha/10.2.0/mocha.min.css"
+    />
   </head>
   <body>
+    <div id="mocha"></div>
+    <script src="http://chaijs.com/chai.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/10.2.0/mocha.min.js"></script>
+    <script class="mocha-init">
+      const { expect } = chai
+      mocha.setup('bdd')
+      mocha.checkLeaks()
+    </script>
     <!-- Include ECMAScript module file in a browser with native module support -->
     <script type="module" src="./index.mjs"></script>
-
     <!-- Include IIFE file in a browser without native module support -->
     <script src="../dist/browser/bundle.iife.js"></script>
     <script>
       ;(function () {
         const myLibraryIIFE = window.Math2 || {}
         console.log('Loaded IIFE', myLibraryIIFE.product([1, 2, 3]) === 6)
+
+        describe('Testing IIFE', function () {
+          it('expect the product of [1, 2, 3] to equal 6', function () {
+            expect(myLibraryIIFE.product([1, 2, 3])).to.equal(6)
+          })
+        })
       })()
+    </script>
+    <script class="mocha-exec">
+      mocha.run()
     </script>
   </body>
 </html>
